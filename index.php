@@ -8,9 +8,10 @@ if (-1 == version_compare(phpversion(), '5.2.0')) {
 }
 
 $scmFileName = "channel_list_UE46D8000_1101.scm";
-$tmpDirName = "tmp" . uniqid();
+$tmpRootDir = "tmp";
+$tmpDirName = $tmpRootDir . "/" . uniqid();
 
-if (is_writable($tmpDirName)) {
+if (!is_writable($tmpRootDir)) {
 	throw new Exception("Permissions for writing to '{$tmpDirName}' required.");
 }
 
