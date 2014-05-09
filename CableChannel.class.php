@@ -27,7 +27,7 @@ class CableChannel extends Channel { // @todo implement differences between seri
 		$this->overwriteBytes(64, $name);
 	}
 
-	public function getType() {
+	public function getServiceType() {
 		return unpack("C", $this->bytes[15])[1];
 	}
 }

@@ -14,7 +14,7 @@ abstract class Channel {
 	abstract public function setIndex($index);
 	abstract public function getName();
 	abstract public function setName($name);
-	abstract public function getType();
+	abstract public function getServiceType();
 
 	public function getBytes() {
 		return $this->bytes;
@@ -38,7 +38,7 @@ abstract class Channel {
 		return $akku;
 	}
 
-	public function getTypeMapped() {
+	public function getServiceTypeMapped() {
 		$typeMap = array(
 			0 => "-",
 			1 => "SD",
@@ -46,6 +46,6 @@ abstract class Channel {
 			25 => "HD"
 		);
 
-		return $typeMap[$this->getType()];
+		return $typeMap[$this->getServiceType()];
 	}
 }

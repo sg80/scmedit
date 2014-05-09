@@ -30,25 +30,24 @@ if ($res !== TRUE) {
 
 $zip->extractTo($tmpDirName);
 
-$cableBlockSize = 320;
-
-$filePath = $tmpDirName . "/" . "map-CableD";
+$fileName = "map-CableD";
+$filePath = $tmpDirName . "/" . $fileName;
 $handle = fopen($filePath, "rb");
 
 $cc = new ChannelCollection();
 
-while ($raw = fread($handle, $cableBlockSize)) {
+while ($raw = fread($handle, CableChannel::BYTE_COUNT)) {
 	$cableChannel = new CableChannel($raw);
 	$cc->add($cableChannel);
 }
 
 foreach ($cc as $c) {
-	echo implode(", ", array($c->getName(), $c->getTypeMapped())) . "\n";
+	echo implode(", ", array($c->getName(), $c->getServiceTypeMapped())) . "\n";
 }
 
 fclose($handle);
 
-$succ = $zip->addFromString("map-CableD", $cc->getBytes());
+$succ = $zip->addFromString($fileName, $cc->getBytes());
 $zip->close();
 
 delTree($tmpDirName);
@@ -59,14 +58,4 @@ function delTree($dir) {
 	    $path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
 	}
 	rmdir($dir);
-}
-
-function concatRawBytes($arr, $from, $to) {
-	$akku = "";
-
-	for ($i = $from; $i <= $to; $i++) {
-		$akku .= $arr[$i];
-	}
-
-	return $akku;
 }
