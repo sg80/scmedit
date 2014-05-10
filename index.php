@@ -1,13 +1,6 @@
 <pre><?php
 
-if (-1 == version_compare(phpversion(), '5.2.0')) {
-	throw new Exception("A newer version of PHP is required.");
-}
-
-define('CLASS_DIR', 'classes/');
-set_include_path(get_include_path() . PATH_SEPARATOR . CLASS_DIR);
-spl_autoload_extensions('.class.php');
-spl_autoload_register();
+include_once __DIR__ . "/init.php";
 
 $scmFileName = "channel_list_UE46D8000_1101.scm";
 
@@ -22,4 +15,4 @@ echo $channel->getName();
 $channel->setName("my channel");
 echo $channel->getName();
 
-$cf->writeChannelsToFile(); // @todo updated info doesn't get saved to file
+$cf->writeChannelsToFile();

@@ -24,11 +24,6 @@ class ChannelCollection implements Iterator {
 		array_splice($this->channels, $i, 1);
 	}
 
-	public function modify($index, Channel $newChannel) {
-		$i = $this->findChannelByIndex($index);
-		$this->channels[$i] = $newChannel;
-	}
-
 	public function getByIndex($index) {
 		$i = $this->findChannelByIndex($index);
 		return $this->channels[$i];
