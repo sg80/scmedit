@@ -2,8 +2,6 @@
 
 // Source of file format definition: http://preamp.org/revenge/scm-dateiformat-samsung-programmlisten
 
-include_once __DIR__ . "/Channel.class.php";
-
 class CableChannel extends Channel { // @todo implement differences between series (this one is for 1101: D-Series)
 	const BYTE_COUNT = 320;
 

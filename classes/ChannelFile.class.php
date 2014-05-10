@@ -1,8 +1,5 @@
 <?php
 
-include_once __DIR__ . "/ChannelCollection.class.php";
-include_once __DIR__ . "/CableChannel.class.php";
-
 class ChannelFile {
 	private $channelCollection;
 	private $scmFilePath;
@@ -25,7 +22,7 @@ class ChannelFile {
 		$res = $this->zip->open($this->scmFilePath);
 
 		if ($res !== TRUE) {
-			throw new Exception("Unable to open ZIP file '{$scmFilePath}'.");
+			throw new Exception("Unable to open zip-archive '{$this->scmFilePath}'.");
 		}
 
 		$allBytes = $this->zip->getFromName($this->channelFileName);
@@ -42,6 +39,12 @@ class ChannelFile {
 	}
 
 	public function writeChannelsToFile() {
+		$scmDir = dirname($this->scmFilePath);
+
+		if (!is_writable($scmDir)) {
+			throw new Exception("Can't write to directory '{$scmDir}'.");
+		}
+
 		if (!is_writable($this->scmFilePath)) {
 			throw new Exception("Can't write to file '{$this->scmFilePath}'.");
 		}

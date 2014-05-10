@@ -1,7 +1,5 @@
 <?php
 
-include_once __DIR__ . "/Channel.class.php";
-
 class ChannelCollection implements Iterator {
 	private $channels = array();
 	private $position = 0;
