@@ -1,0 +1,5 @@
+In your local copy, you may put station-logos in this folder. Check for usage permissions.
+
+I prefer to use 250px x 250px transparent .png-files, which are scaled by CSS.
+
+To make them appear, add a line to /stations.css and have a look at Channel.class.php:getLogoFileName().

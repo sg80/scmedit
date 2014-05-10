@@ -1,3 +1,9 @@
+<?php
+$scmPath = __DIR__ . "/../uploads/" . session_id() . "/my.scm";
+$channelFile = new ChannelFile($scmPath);
+$channelCollection = $channelFile->getChannelCollection();
+?>
+
 <script type="text/javascript">
 	$(function() {
 		$('.channel-list tr').tsort({attr: 'data-index'});
@@ -7,6 +13,7 @@
 
 		$('.delete').on('dblclick', function() {
 			// @todo implement
+			alert("Not yet implemented.");
 			return false;
 		});
 	});

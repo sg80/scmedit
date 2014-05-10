@@ -20,7 +20,7 @@
 		<p class="intro">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque nunc, mollis ac molestie sed, interdum quis enim. Vestibulum a eros nec sem interdum interdum in quis nulla.
 		</p>
-		<? include __DIR__ . "/{$content}.php"; ?>
+		<? include __DIR__ . "/{$page}.php"; ?>
 		<div class="footer">
 			footer
 		</div>

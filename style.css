@@ -1,8 +1,6 @@
 * { color:#222; font-size:13px; line-height:15px; font-family:sans-serif; margin:0px; padding:0px; border-collapse:collapse; }
 
-body { padding:10px; }
-
-h1 { font-size:30px; color:#555; padding:30px; }
+h1 { font-size:30px; color:#999; padding:30px; font-family:georgia, serif; }
 p.intro { float:left; padding-left:30px; margin-bottom:10px; width:200px; }
 
 span.invisible{ display:none; }
@@ -30,4 +28,12 @@ a.delete:hover { background-position:-20px 0px; }
 
 .logo { display:block; width:16px; height:16px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
 
-.footer { clear:both; }
+.footer { clear:both; margin-top:20px; background:gray; padding:30px; color:silver; }
+
+#dnd-upload { clear:both; background:#eee; display:table; width:200px; height:200px; border-radius:50%; }
+#dnd-upload .upload-info,
+	.dz-preview { display:table-cell; text-align:center; vertical-align:middle; }
+
+.dz-details,
+	.dz-success-mark,
+	.dz-error-mark { display:none; }

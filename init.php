@@ -14,3 +14,6 @@ date_default_timezone_set("Europe/Berlin");
 set_include_path(__DIR__. "/classes");
 spl_autoload_extensions(".class.php");
 spl_autoload_register();
+
+// Session
+session_start();

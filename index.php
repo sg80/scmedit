@@ -1,10 +1,5 @@
 <?php
-
 include_once __DIR__ . "/init.php";
 
-$scmFileName = "channel_list_UE46D8000_1101.scm";
-$channelFile = new ChannelFile($scmFileName);
-$channelCollection = $channelFile->getChannelCollection();
-
-$content = "channellist";
+$page = empty($_REQUEST['page']) ? "upload" : $_REQUEST['page']; // @todo add some security-checks to see if the page is valid
 include __DIR__ . "/view/main.php";
