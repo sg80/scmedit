@@ -13,7 +13,7 @@ abstract class Channel {
 	abstract public function getIndex();
 	abstract public function setIndex($index);
 	abstract public function getName();
-	abstract public function setName($name);
+	//abstract public function setName($name);
 	abstract public function getServiceType();
 
 	public function getBytes() {
@@ -38,7 +38,7 @@ abstract class Channel {
 		return $akku;
 	}
 
-	public function getServiceTypeMapped() {
+	public function getServiceTypeName() {
 		$typeMap = array(
 			0 => "-",
 			1 => "SD",
@@ -47,5 +47,18 @@ abstract class Channel {
 		);
 
 		return $typeMap[$this->getServiceType()];
+	}
+
+	/**
+	 * Normalizes the channel-name to enable the
+	 * association to a file.
+	 */
+	public function getLogoFileName() {
+		$name = $this->getName();
+		$name = strtolower($name);
+		$name = preg_replace("/[^a-z0-9]/", "", $name);
+		$name = str_replace(array("television", "hd"), array("", ""), $name);
+
+		return $name;
 	}
 }

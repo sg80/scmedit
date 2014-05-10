@@ -1,0 +1,33 @@
+* { color:#222; font-size:13px; line-height:15px; font-family:sans-serif; margin:0px; padding:0px; border-collapse:collapse; }
+
+body { padding:10px; }
+
+h1 { font-size:30px; color:#555; padding:30px; }
+p.intro { float:left; padding-left:30px; margin-bottom:10px; width:200px; }
+
+span.invisible{ display:none; }
+td { vertical-align:top; }
+
+.lists-container { clear:both; background:silver; width:600px; margin:0 auto; }
+
+.dragging { background-color:#EEE; border-radius:10px; }
+div.service-type { opacity:0.2; display:block; width:20px; height:20px; overflow:hidden; background:url(img/typesprite.png) no-repeat; }
+div.service-type.service-type-1 { background-position:-20px 0px; }
+div.service-type.service-type-2 { background-position:-60px 0px; }
+div.service-type.service-type-25 { background-position:-40px 0px; }
+a.delete { display:inline-block; width:20px; height:20px; overflow:hidden; background:url(img/deletesprite.png) no-repeat; background-position:0px 0px; }
+a.delete:hover { background-position:-20px 0px; }
+
+.channel-list { float:left; width:200px; }
+.channel-list .index { text-align:right; }
+.channel-list td { padding:2px 5px; }
+.channel-list td.service-type,
+	.channel-list td.index,
+	.channel-list td.options { width:20px; }
+.channel-list td.name,
+	.channel-list td.index { padding-top:8px; }
+.channel-list td.options { padding-top:6px; }
+
+.logo { display:block; width:16px; height:16px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
+
+.footer { clear:both; }

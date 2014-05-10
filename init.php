@@ -11,6 +11,6 @@ if (-1 == version_compare(phpversion(), '5.2.0')) {
 date_default_timezone_set("Europe/Berlin");
 
 // Autoload
-set_include_path(get_include_path() . PATH_SEPARATOR . "classes");
-spl_autoload_extensions('.class.php');
+set_include_path(__DIR__. "/classes");
+spl_autoload_extensions(".class.php");
 spl_autoload_register();

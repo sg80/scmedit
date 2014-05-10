@@ -19,14 +19,14 @@ class CableChannel extends Channel { // @todo implement differences between seri
 	}
 
 	public function getName() {
-		return $this->concatRawBytes(64, 263);
+		return trim($this->concatRawBytes(64, 263));
 	}
 
-	public function setName($name) {
+	/*public function setName($name) {
 		if (strlen($name) < 200) $name = $name . str_repeat(chr(0), 200 - strlen($name));
 		if (strlen($name) > 200) $name = substr($name, 0, 200);
 		$this->overwriteBytes(64, $name);
-	}
+	}*/
 
 	public function getServiceType() {
 		return unpack("C", $this->bytes[15])[1];
