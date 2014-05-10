@@ -6,17 +6,34 @@ class ChannelCollection implements Iterator {
 	private $channels = array();
 	private $position = 0;
 
+	private function findChannelByIndex($index) {
+		for ($i = 0; $i < count($this->channels); $i++) {
+			if ($this->channels[$i]->getIndex() == $index) {
+				return $i;
+			}
+		}
+
+		throw new Exception("Channel '{$index}' could not be found.");
+	}
+
 	public function add(Channel $channel) {
 		if (empty($channel->getIndex())) return;
 		$this->channels[] = $channel;
 	}
 
 	public function remove($index) {
-		for ($i = 0; $i < count($this->channels); $i++) {
-			if ($this->channels[$i]->getIndex() == $index) {
-				array_splice($this->channels, $i, 1);
-			}
-		}
+		$i = $this->findChannelByIndex($index);
+		array_splice($this->channels, $i, 1);
+	}
+
+	public function modify($index, Channel $newChannel) {
+		$i = $this->findChannelByIndex($index);
+		$this->channels[$i] = $newChannel;
+	}
+
+	public function getByIndex($index) {
+		$i = $this->findChannelByIndex($index);
+		return $this->channels[$i];
 	}
 
 	public function getBytes() {
