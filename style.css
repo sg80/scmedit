@@ -3,6 +3,9 @@
 h1 { font-size:30px; color:#999; padding:30px; font-family:georgia, serif; }
 p.intro { float:left; padding-left:30px; margin-bottom:10px; width:200px; }
 
+a { color:#00d; text-decoration:none; }
+a:hover { text-decoration:underline; }
+
 span.invisible{ display:none; }
 td { vertical-align:top; }
 
@@ -26,7 +29,10 @@ a.delete:hover { background-position:-20px 0px; }
 	.channel-list td.index { padding-top:8px; }
 .channel-list td.options { padding-top:6px; }
 
-.logo { display:block; width:16px; height:16px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
+.download { background:#eee; width:600px; margin:0 auto; clear:both; text-align:center; display:block; padding-top:60px; margin-bottom:15px; padding-bottom:10px; }
+.download a { padding-top:50px; background:url(img/download.png) no-repeat center 0px; }
+
+.logo { display:block; width:20px; height:20px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
 
 .footer { clear:both; margin-top:20px; background:gray; padding:30px; color:silver; }
 
