@@ -11,6 +11,8 @@ td { vertical-align:top; }
 
 .lists-container { clear:both; background:silver; width:600px; margin:0 auto; }
 
+.empty-list { margin:0 auto; opacity:0.2; display:block; width:20px; height:20px; background:url(img/emptylist.png) no-repeat; overflow:hidden; }
+
 .dragging { background-color:#EEE; border-radius:10px; }
 div.service-type { opacity:0.2; display:block; width:20px; height:20px; overflow:hidden; background:url(img/typesprite.png) no-repeat; }
 div.service-type.service-type-1 { background-position:-20px 0px; }
@@ -21,6 +23,7 @@ a.delete:hover { background-position:-20px 0px; }
 
 .channel-list { float:left; width:200px; }
 .channel-list .index { text-align:right; }
+.channel-list th { color:#555; padding-bottom:10px; }
 .channel-list td { padding:2px 5px; }
 .channel-list td.service-type,
 	.channel-list td.index,
@@ -34,7 +37,7 @@ a.delete:hover { background-position:-20px 0px; }
 
 .logo { display:block; width:20px; height:20px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
 
-.footer { clear:both; margin-top:20px; background:gray; padding:30px; color:silver; }
+.footer { clear:both; background:gray; padding:30px; color:silver; }
 
 #dnd-upload { clear:both; background:#eee; display:table; width:200px; height:200px; border-radius:50%; }
 #dnd-upload .upload-info,

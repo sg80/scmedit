@@ -1,7 +1,8 @@
 <?php
-$scmPath = __DIR__ . "/../uploads/" . session_id() . "/my.scm";
-$channelFile = new ChannelFile($scmPath);
-$channelCollection = $channelFile->getChannelCollection();
+$scmFile = new ScmFile($_SESSION['uploadedScmPath']);
+
+$collections = array();
+$collections = $scmFile->getAllCollections();
 ?>
 
 <script type="text/javascript">
@@ -41,10 +42,18 @@ $channelCollection = $channelFile->getChannelCollection();
 </div>
 
 <div class="lists-container">
-	<? for ($i = 0; $i < 1; $i++) { // idea is to show air, cable and sat-lists here ?>
+	<? foreach ($collections as $collectionName => $channelCollection) { ?>
 		<table class="channel-list">
+			<tr class="nodrag">
+				<th colspan="5"><?=$collectionName?></th>
+			</tr>
+			<? if ($channelCollection->isEmpty()) { ?>
+				<tr class="nodrag">
+					<td colspan="5"><div class="empty-list"><span class="invisible">no channels found</span></div></td>
+				</tr>
+			<? } ?>
 			<? foreach($channelCollection as $channel) { ?>
-				<tr data-index="<?=$channel->getIndex()?>">
+				<tr class="channel" data-index="<?=$channel->getIndex()?>">
 					<td class="index"><?=$channel->getIndex()?></td>
 					<td class="service-type"><div class="service-type service-type-<?=$channel->getServiceType()?>"><span class="invisible"><?=$channel->getServiceTypeName()?></span></td>
 					<td class="logo logo-<?=$channel->getLogoFileName()?>"></td>

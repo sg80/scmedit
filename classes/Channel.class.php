@@ -1,6 +1,14 @@
 <?php
 
+/**
+ * Source of file format definition:
+ * http://preamp.org/revenge/scm-dateiformat-samsung-programmlisten
+ */
+
 abstract class Channel {
+	const BYTE_COUNT = 0;
+	const MAP_FILE_NAME = "";
+
 	protected $bytes;
 	protected $index;
 
@@ -13,7 +21,6 @@ abstract class Channel {
 	abstract public function getIndex();
 	abstract public function setIndex($index);
 	abstract public function getName();
-	//abstract public function setName($name);
 	abstract public function getServiceType();
 
 	public function getBytes() {
@@ -28,7 +35,7 @@ abstract class Channel {
 		$this->bytes = $akku;
 	}
 
-	protected function concatRawBytes($from, $to) {
+	protected function getRawBytes($from, $to) {
 		$akku = "";
 
 		for ($i = $from; $i <= $to; $i++) {

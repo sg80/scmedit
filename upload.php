@@ -10,9 +10,9 @@ if (empty($_FILES)) {
 $targetDir = $uploadDir . "/" . session_id();
 mkdir($targetDir);
 
-$tempFile = $_FILES['file']['tmp_name'];
-$targetFile =  $targetDir . "/my.scm";
+$targetFile = preg_replace("/[^A-Za-z0-9_\.]/", "", $_FILES['file']['name']);
+$targetPath =  $targetDir . "/" . $targetFile;
 
-$_SESSION['originalFileName'] = $_FILES['file']['name'];
+$_SESSION['uploadedScmPath'] = $targetPath;
 
-move_uploaded_file($tempFile, $targetFile);
+move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);

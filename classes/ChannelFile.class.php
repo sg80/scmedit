@@ -5,10 +5,14 @@ class ChannelFile {
 	private $scmFilePath;
 	private $zip;
 	private $channelFileName;
+	private $channelClassName;
 
-	public function __construct($scmFilePath) {
+	public function __construct($scmFilePath, $channelType, $seriesNumber) {
+		$this->channelClassName = "{$channelType}Channel{$seriesNumber}";
 		$this->scmFilePath = $scmFilePath;
-		$this->channelFileName = "map-CableD"; // @todo extend for sat and air
+
+		$channelClassName = $this->channelClassName;
+		$this->channelFileName = $channelClassName::MAP_FILE_NAME; // can't see why $this->channelClassName::... doesn't work
 
 		$this->readChannels();
 	}
@@ -26,15 +30,18 @@ class ChannelFile {
 		}
 
 		$allBytes = $this->zip->getFromName($this->channelFileName);
-		$i = 0;
+		// @todo check if size of allBytes is reasonable compared to multiples of 1000 * channelClassName::BYTE_COUNT
 
 		$this->channelCollection = new ChannelCollection();
 
-		while ($i + CableChannel::BYTE_COUNT <= strlen($allBytes)) { // @todo extend for sat and air
-			$channelBytes = substr($allBytes, $i, CableChannel::BYTE_COUNT);
-			$i += CableChannel::BYTE_COUNT;
+		$channelClassName = $this->channelClassName;
 
-			$this->channelCollection->add(new CableChannel($channelBytes));
+		$i = 0;
+		while ($i + $channelClassName::BYTE_COUNT <= strlen($allBytes)) { // @todo extend for sat and air
+			$channelBytes = substr($allBytes, $i, $channelClassName::BYTE_COUNT);
+			$i += $channelClassName::BYTE_COUNT;
+
+			$this->channelCollection->add(new $channelClassName($channelBytes));
 		}
 	}
 

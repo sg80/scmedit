@@ -40,10 +40,14 @@ class ChannelCollection implements Iterator {
 
 		if ($count % 1000 > 0) {
 			$missing = 1000 * (1 + $count - ($count % 1000)) - $count;
-			$akku .= str_repeat(chr(0), $missing * CableChannel::BYTE_COUNT);
+			$akku .= str_repeat(chr(0), $missing * CableChannel1101::BYTE_COUNT); // @todo implement for sat and air also
 		}
 
 		return $akku;
+	}
+
+	public function isEmpty() {
+		return empty($this->channels);
 	}
 
 	public function current() {
