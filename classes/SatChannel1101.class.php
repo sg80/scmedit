@@ -1,6 +1,6 @@
 <?php
 
-class SatChannel1101 extends CableChannel {
+class SatChannel1101 extends SatChannel {
 	const BYTE_COUNT = 172;
 	const MAP_FILE_NAME = "map-SateD";
 
@@ -11,7 +11,7 @@ class SatChannel1101 extends CableChannel {
 
 	public function setIndex($index) {
 		$this->overwriteBytes(0, pack("v", $index));
-		$this->index = getIndex();
+		$this->index = $index;
 	}
 
 	public function getName() {

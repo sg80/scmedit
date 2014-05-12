@@ -1,6 +1,6 @@
 <?php
 
-class AirChannel1101 extends CableChannel {
+class AirChannel1101 extends AirChannel {
 	const BYTE_COUNT = 320;
 	const MAP_FILE_NAME = "map-AirD";
 
@@ -11,7 +11,7 @@ class AirChannel1101 extends CableChannel {
 
 	public function setIndex($index) {
 		$this->overwriteBytes(0, pack("v", $index));
-		$this->index = getIndex();
+		$this->index = $index;
 	}
 
 	public function getName() {

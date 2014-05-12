@@ -29,6 +29,20 @@ class ChannelCollection implements Iterator {
 		return $this->channels[$i];
 	}
 
+	public function reorder($reorderedIndexes) {
+		foreach ($this->channels as $channel) {
+			$sorting = array_flip($reorderedIndexes);
+
+			if (!isset($sorting[$channel->getIndex()])) {
+				$this->remove($channel->getIndex());
+			} else {
+				$channel->setIndex($sorting[$channel->getIndex()] + 1);
+			}
+		}
+
+		// var_dump($this->channels);
+	}
+
 	public function getBytes() {
 		$akku = "";
 		$count = 0;

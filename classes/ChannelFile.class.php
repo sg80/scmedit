@@ -7,28 +7,39 @@ class ChannelFile {
 	private $channelFileName;
 	private $channelClassName;
 
-	public function __construct($scmFilePath, $channelType, $seriesNumber) {
+	public function __construct($scmFilePath, $channelType, $seriesNumber, ChannelCollection $channelCollection = null) {
 		$this->channelClassName = "{$channelType}Channel{$seriesNumber}";
 		$this->scmFilePath = $scmFilePath;
+		$this->channelFileName = $this->getChannelFileName();
+		
+		$this->openZip();
 
-		$channelClassName = $this->channelClassName;
-		$this->channelFileName = $channelClassName::MAP_FILE_NAME; // can't see why $this->channelClassName::... doesn't work
-
-		$this->readChannels();
+		if (empty($channelCollection)) {
+			$this->readChannels();
+		} else {
+			$this->channelCollection = $channelCollection;
+		}
 	}
 
 	public function __destruct() {
 		$this->zip->close();
 	}
 
-	private function readChannels() {
+	private function openZip() {
 		$this->zip = new ZipArchive();
 		$res = $this->zip->open($this->scmFilePath);
 
 		if ($res !== TRUE) {
 			throw new Exception("Unable to open zip-archive '{$this->scmFilePath}'.");
 		}
+	}
 
+	private function getChannelFileName() {
+		$channelClassName = $this->channelClassName;
+		return $channelClassName::MAP_FILE_NAME; // can't see why $this->channelClassName::... doesn't work		
+	}
+
+	private function readChannels() {
 		$allBytes = $this->zip->getFromName($this->channelFileName);
 		// @todo check if size of allBytes is reasonable compared to multiples of 1000 * channelClassName::BYTE_COUNT
 
@@ -37,7 +48,7 @@ class ChannelFile {
 		$channelClassName = $this->channelClassName;
 
 		$i = 0;
-		while ($i + $channelClassName::BYTE_COUNT <= strlen($allBytes)) { // @todo extend for sat and air
+		while ($i + $channelClassName::BYTE_COUNT <= strlen($allBytes)) {
 			$channelBytes = substr($allBytes, $i, $channelClassName::BYTE_COUNT);
 			$i += $channelClassName::BYTE_COUNT;
 
@@ -65,6 +76,7 @@ class ChannelFile {
 		}
 
 		$this->zip->close();
+		$this->openZip();
 
 		$this->readChannels();
 	}

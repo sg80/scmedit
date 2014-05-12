@@ -60,11 +60,19 @@ abstract class Channel {
 	 * Normalizes the channel-name to enable the
 	 * association to a file.
 	 */
-	public function getLogoFileName() {
+	public function getNormalizedName() {
 		$name = $this->getName();
 		$name = strtolower($name);
-		$name = preg_replace("/[^a-z0-9]/", "", $name);
-		$name = str_replace(array("television", "hd"), array("", ""), $name);
+		ini_set('mbstring.substitute_character', "none"); // remove illegal UTF-8-characters
+  		$name = mb_convert_encoding($name, 'UTF-8', 'UTF-8');
+		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name); // transliterate
+		$name = preg_replace("/\(.*\)/", "", $name); // remove parts between braces (including braces)
+		$name = preg_replace("/[^a-z0-9]/", "", $name); // remove any remaining odd characters
+		$name = str_replace( // remove some tv-specific parts
+			array("television", "hd"),
+			array("", ""),
+			$name
+		);
 
 		return $name;
 	}

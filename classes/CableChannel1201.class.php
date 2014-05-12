@@ -1,6 +1,6 @@
 <?php
 
-class CableChannel1101 extends CableChannel {
+class CableChannel1201 extends CableChannel {
 	const BYTE_COUNT = 320;
 	const MAP_FILE_NAME = "map-CableD";
 

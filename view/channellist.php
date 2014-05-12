@@ -1,7 +1,5 @@
 <?php
 $scmFile = new ScmFile($_SESSION['uploadedScmPath']);
-
-$collections = array();
 $collections = $scmFile->getAllCollections();
 ?>
 
@@ -26,6 +24,28 @@ $collections = $scmFile->getAllCollections();
 			});
 			return false;
 		});
+
+		$('#download').on('click', function() {
+			// build sorting-data from tables
+			var sortingData = new Array();
+
+			$('table[data-type]').each(function() {
+				var indexOrder = new Array();
+				var type = $(this).data('type');
+				$(this).find('tr.channel').each(function() {
+					indexOrder.push($(this).data('index'));
+				});
+				sortingData.push({
+					"type": type,
+					"indexOrder": indexOrder
+				});
+			});
+
+			// send sorting-data to server-side script
+			location.href = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData)); // found no working way of sending it by POST instead of GET
+
+			return false;
+		});
 	});
 
 	function renumberChannels() {
@@ -38,12 +58,12 @@ $collections = $scmFile->getAllCollections();
 </script>
 
 <div class="download">
-	<a href="#">apply changes and download .scm-file</a>
+	<a id="download" href="#">apply changes and download .scm-file</a>
 </div>
 
 <div class="lists-container">
 	<? foreach ($collections as $collectionName => $channelCollection) { ?>
-		<table class="channel-list">
+		<table class="channel-list" data-type="<?=$collectionName?>">
 			<tr class="nodrag">
 				<th colspan="5"><?=$collectionName?></th>
 			</tr>
@@ -56,7 +76,7 @@ $collections = $scmFile->getAllCollections();
 				<tr class="channel" data-index="<?=$channel->getIndex()?>">
 					<td class="index"><?=$channel->getIndex()?></td>
 					<td class="service-type"><div class="service-type service-type-<?=$channel->getServiceType()?>"><span class="invisible"><?=$channel->getServiceTypeName()?></span></td>
-					<td class="logo logo-<?=$channel->getLogoFileName()?>"></td>
+					<td class="logo logo-<?=$channel->getNormalizedName()?>"></td>
 					<td class="name"><?=utf8_encode($channel->getName())?></td>
 					<td class="options">
 						<a class="delete" href="#" title="double-click"><span class="invisible">delete</span></a>
