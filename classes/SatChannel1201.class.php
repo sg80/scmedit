@@ -1,7 +1,7 @@
 <?php
 
 class SatChannel1201 extends SatChannel {
-	const BYTE_COUNT = 172;
+	const BYTE_COUNT = 168;
 	const MAP_FILE_NAME = "map-SateD";
 
 	public function getIndex() {

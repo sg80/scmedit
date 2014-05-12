@@ -1,6 +1,6 @@
 .logo-frankenfernsehen { background-image:url(img/stations/frankenfernsehen.png); }
-.logo-daserste { background-image:url(img/stations/daserste.png); }
-.logo-ard { background-image:url(img/stations/daserste.png); }
+.logo-daserste,
+	.logo-ard { background-image:url(img/stations/daserste.png); }
 .logo-zdf { background-image:url(img/stations/zdf.png); }
 .logo-prosieben { background-image:url(img/stations/prosieben.png); }
 .logo-n24 { background-image:url(img/stations/n24.png); }
@@ -8,12 +8,14 @@
 .logo-rtl { background-image:url(img/stations/rtl.png); }
 .logo-bayern3 { background-image:url(img/stations/bayern3.png); }
 .logo-kabeleins { background-image:url(img/stations/kabeleins.png); }
-.logo-rtlii { background-image:url(img/stations/rtlii.png); }
+.logo-rtlii,
+	.logo-rtl2 { background-image:url(img/stations/rtlii.png); }
 .logo-vox { background-image:url(img/stations/vox.png); }
 .logo-arte { background-image:url(img/stations/arte.png); }
 .logo-3sat { background-image:url(img/stations/3sat.png); }
 .logo-dmax { background-image:url(img/stations/dmax.png); }
-.logo-bayerischesfssd { background-image:url(img/stations/br.png); }
+.logo-bayerischesfssd,
+	.logo-brsd { background-image:url(img/stations/br.png); }
 .logo-bralpha { background-image:url(img/stations/bralpha.png); }
 .logo-wdrkln { background-image:url(img/stations/wdr.png); }
 .logo-sport1 { background-image:url(img/stations/sport1.png); }
