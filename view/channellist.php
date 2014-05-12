@@ -25,6 +25,14 @@ $collections = $scmFile->getAllCollections();
 			return false;
 		});
 
+		$('#download-warning').on('click', function() {
+			$('#download').show();
+			$(this).hide();
+			$(this).parent().addClass('warning');
+
+			return false;
+		});
+
 		$('#download').on('click', function() {
 			// build sorting-data from tables
 			var sortingData = new Array();
@@ -44,6 +52,10 @@ $collections = $scmFile->getAllCollections();
 			// send sorting-data to server-side script
 			location.href = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData)); // found no working way of sending it by POST instead of GET
 
+			$(this).hide();
+			$('#download-warning').show();
+			$(this).parent().removeClass('warning');
+
 			return false;
 		});
 	});
@@ -58,7 +70,8 @@ $collections = $scmFile->getAllCollections();
 </script>
 
 <div class="download">
-	<a id="download" href="#">apply changes and download .scm-file</a>
+	<a id="download-warning" href="#">apply changes and download .scm-file</a>
+	<a id="download" href="#">no warranty &dash; use at own risk &dash; now click again</a>
 </div>
 
 <div class="lists-container">
