@@ -1,87 +1,76 @@
 <?php
 
-class ChannelFile {
-	private $channelCollection;
-	private $scmFilePath;
-	private $zip;
-	private $channelFileName;
-	private $channelClassName;
+abstract class ChannelFile {
+	const DATASET_SIZE = 0;
+	const UNPACK_FORMAT = "";
 
-	public function __construct($scmFilePath, $channelType, $seriesNumber, ChannelCollection $channelCollection = null) {
-		$this->channelClassName = "{$channelType}Channel{$seriesNumber}";
-		$this->scmFilePath = $scmFilePath;
-		$this->channelFileName = $this->getChannelFileName();
-		
-		$this->openZip();
+	protected $collection;
+	protected $scmFile;
+	private $fileName;
 
-		if (empty($channelCollection)) {
-			$this->readChannels();
-		} else {
-			$this->channelCollection = $channelCollection;
-		}
-	}
-
-	public function __destruct() {
-		$this->zip->close();
-	}
-
-	private function openZip() {
-		$this->zip = new ZipArchive();
-		$res = $this->zip->open($this->scmFilePath);
-
-		if ($res !== TRUE) {
-			throw new Exception("Unable to open zip-archive '{$this->scmFilePath}'.");
-		}
-	}
-
-	private function getChannelFileName() {
-		$channelClassName = $this->channelClassName;
-		return $channelClassName::MAP_FILE_NAME; // can't see why $this->channelClassName::... doesn't work		
-	}
-
-	private function readChannels() {
-		$allBytes = $this->zip->getFromName($this->channelFileName);
-		// @todo check if size of allBytes is reasonable compared to multiples of 1000 * channelClassName::BYTE_COUNT
-
-		$this->channelCollection = new ChannelCollection();
-
-		$channelClassName = $this->channelClassName;
-
-		$i = 0;
-		while ($i + $channelClassName::BYTE_COUNT <= strlen($allBytes)) {
-			$channelBytes = substr($allBytes, $i, $channelClassName::BYTE_COUNT);
-			$i += $channelClassName::BYTE_COUNT;
-
-			$this->channelCollection->add(new $channelClassName($channelBytes));
-		}
-	}
-
-	public function writeChannelsToFile() {
-		$scmDir = dirname($this->scmFilePath);
-
-		if (!is_writable($scmDir)) {
-			throw new Exception("Can't write to directory '{$scmDir}'.");
-		}
-
-		if (!is_writable($this->scmFilePath)) {
-			throw new Exception("Can't write to file '{$this->scmFilePath}'.");
-		}
-
-		$bytes = $this->channelCollection->getBytes();
-
-		$success = $this->zip->addFromString($this->channelFileName, $bytes);
-		
-		if (!$success) {
-			throw new Exception("Zip-archive '{$this->channelFileName}' could not be updated.");
-		}
-
-		$this->zip->close();
-		$this->openZip();
+	public function __construct(ScmFile $scmFile, $fileName) {
+		$this->scmFile = $scmFile;
+		$this->fileName = $fileName;
 
 		$this->readChannels();
 	}
 
+	/**
+	 * Converts format-definition if unpack() to format definition of pack().
+	 * Will work only if all parts are named (e.g. "/C1checksum" vs. "/C1").
+	 */
+	protected function getPackFormat() {
+		return preg_replace('/([a-zA-Z@][0-9*]*)([^\\/]+)\\/?/u', '\\1', static::UNPACK_FORMAT);
+	}
+
+	protected function getUnpackFormat() {
+		return static::UNPACK_FORMAT;
+	}
+
+	private function getBytes() {
+		$akku = "";
+		$count = 0;
+
+		
+		foreach ($this->collection as $channel) {
+			$akku .= $channel->getRawBytes($this->getPackFormat());
+			$count++;
+		}
+
+		$datasetCountCeil = 1000;// $this->scmFile::DATASET_COUNT_CEIL; // @todo read from instance
+
+		if ($count % $datasetCountCeil > 0) {
+			$missing = $datasetCountCeil * (1 + $count - ($count % $datasetCountCeil)) - $count;
+			$akku .= str_repeat(chr(0), $missing * self::DATASET_SIZE);
+		}
+		
+		return $akku;
+	}
+
+	public function getFileName() {
+		return $this->fileName;
+	}
+
+	protected function readChannels() {
+		$this->collection = new ChannelCollection();
+
+		$bytes = $this->scmFile->getZipArchive()->getFromName($this->fileName);
+
+		$i = 0;
+		while ($i + static::DATASET_SIZE <= strlen($bytes)) {
+			$channelBytes = substr($bytes, $i, static::DATASET_SIZE);
+			$i += static::DATASET_SIZE;
+
+			$channel = new Channel($this->getUnpackFormat(), $channelBytes);
+			$this->collection->add($channel);
+		}
+	}
+
+	public function writeChannels() {
+		$this->scmFile->getZipArchive()->addFromString($this->fileName, $this->getBytes());
+	}
+
 	public function getChannelCollection() {
-		return $this->channelCollection;
+		return $this->collection;
 	}
 }

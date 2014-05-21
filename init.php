@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 
-if (-1 == version_compare(phpversion(), '5.2.0')) {
+if (-1 == version_compare(phpversion(), '5.4.0')) {
 	throw new Exception("A newer version of PHP is required.");
 }
 

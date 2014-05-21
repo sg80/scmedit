@@ -14,12 +14,7 @@ class ChannelCollection implements Iterator {
 		throw new Exception("Channel '{$index}' could not be found.");
 	}
 
-	public function add(Channel $channel) {
-		if (empty($channel->getIndex())) return;
-		$this->channels[] = $channel;
-	}
-
-	public function remove($index) {
+	public function removeByIndex($index) {
 		$i = $this->findChannelByIndex($index);
 		array_splice($this->channels, $i, 1);
 	}
@@ -39,25 +34,11 @@ class ChannelCollection implements Iterator {
 				$channel->setIndex($sorting[$channel->getIndex()] + 1);
 			}
 		}
-
-		// var_dump($this->channels);
 	}
 
-	public function getBytes() {
-		$akku = "";
-		$count = 0;
-
-		foreach ($this as $channel) {
-			$akku .= $channel->getBytes();
-			$count++;
-		}
-
-		if ($count % 1000 > 0) {
-			$missing = 1000 * (1 + $count - ($count % 1000)) - $count;
-			$akku .= str_repeat(chr(0), $missing * CableChannel1101::BYTE_COUNT); // @todo implement for sat and air also
-		}
-
-		return $akku;
+	public function add(Channel $channel) {
+		if (empty($channel->getIndex())) return;
+		$this->channels[] = $channel;
 	}
 
 	public function isEmpty() {

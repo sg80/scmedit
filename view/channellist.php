@@ -1,73 +1,9 @@
-<?php
-$scmFile = new ScmFile($_SESSION['uploadedScmPath']);
-$collections = $scmFile->getAllCollections();
+<?
+$scmFile = ScmFileFactory::getScmFile($_SESSION['uploadedScmPath']);
+$channelFiles = $scmFile->getChannelFiles();
 ?>
 
-<script type="text/javascript">
-	$(function() {
-		$('.channel-list tr').tsort({attr: 'data-index'});
-		$('.channel-list').tableDnD({
-			onDragClass: 'dragging',
-			onDrop: function(table, row) {
-				renumberChannels();
-			}
-		});
-
-		$('.delete').on('click', function() {
-			return false;
-		});
-
-		$('.delete').on('dblclick', function() {
-			$(this).parentsUntil('tr').parent().fadeOut(function() {
-				$(this).remove();
-				renumberChannels();
-			});
-			return false;
-		});
-
-		$('#download-warning').on('click', function() {
-			$('#download').show();
-			$(this).hide();
-			$(this).parent().addClass('warning');
-
-			return false;
-		});
-
-		$('#download').on('click', function() {
-			// build sorting-data from tables
-			var sortingData = new Array();
-
-			$('table[data-type]').each(function() {
-				var indexOrder = new Array();
-				var type = $(this).data('type');
-				$(this).find('tr.channel').each(function() {
-					indexOrder.push($(this).data('index'));
-				});
-				sortingData.push({
-					"type": type,
-					"indexOrder": indexOrder
-				});
-			});
-
-			// send sorting-data to server-side script
-			location.href = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData)); // found no working way of sending it by POST instead of GET
-
-			$(this).hide();
-			$('#download-warning').show();
-			$(this).parent().removeClass('warning');
-
-			return false;
-		});
-	});
-
-	function renumberChannels() {
-		var i = 1;
-
-		$('.channel-list .index').each(function() {
-			$(this).text(i++);
-		});
-	}
-</script>
+<script type="text/javascript" src="js/channellist.js"></script>
 
 <div class="download">
 	<a id="download-warning" href="#">apply changes and download .scm-file</a>
@@ -75,17 +11,17 @@ $collections = $scmFile->getAllCollections();
 </div>
 
 <div class="lists-container">
-	<? foreach ($collections as $collectionName => $channelCollection) { ?>
-		<table class="channel-list" data-type="<?=$collectionName?>">
+	<? foreach ($channelFiles as $title => $channelFile) { ?>
+		<table class="channel-list" data-type="<?=$title?>">
 			<tr class="nodrag">
-				<th colspan="5"><?=$collectionName?></th>
+				<th colspan="5"><?=$title?></th>
 			</tr>
-			<? if ($channelCollection->isEmpty()) { ?>
+			<? if ($channelFile->getChannelCollection()->isEmpty()) { ?>
 				<tr class="nodrag">
 					<td colspan="5"><div class="empty-list"><span class="invisible">no channels found</span></div></td>
 				</tr>
 			<? } ?>
-			<? foreach($channelCollection as $channel) { ?>
+			<? foreach($channelFile->getChannelCollection() as $channel) { ?>
 				<tr class="channel" data-index="<?=$channel->getIndex()?>">
 					<td class="index"><?=$channel->getIndex()?></td>
 					<td class="service-type"><div class="service-type service-type-<?=$channel->getServiceType()?>"><span class="invisible"><?=$channel->getServiceTypeName()?></span></td>

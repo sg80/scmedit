@@ -1,65 +1,59 @@
 <?php
 
-/**
- * Source of file format definition:
- * http://preamp.org/revenge/scm-dateiformat-samsung-programmlisten
- */
+class Channel {
+	private $channelData = [];
+	private $typeMap = [
+		0 => "-",
+		1 => "SD",
+		2 => "Radio",
+		25 => "HD"
+	];
 
-abstract class Channel {
-	const BYTE_COUNT = 0;
-	const MAP_FILE_NAME = "";
 
-	protected $bytes;
-	protected $index;
+	public function __construct($unpackFormat, $bytes) {
+		$this->channelData = unpack($unpackFormat, $bytes);
 
-	public function __construct($bytes) {
-		$this->bytes = $bytes;
-
-		$this->index = $this->getIndex();
+		// @todo validate checksum
 	}
 
-	abstract public function getIndex();
-	abstract public function setIndex($index);
-	abstract public function getName();
-	abstract public function getServiceType();
+	public function getRawBytes($packFormat) {
+		$params = array_values($this->channelData);
+		array_unshift($params, $packFormat);
 
-	public function getBytes() {
-		return $this->bytes;
+		$packed = substr(call_user_func_array("pack", $params), 0, -1);
+		$checksum = $this->calculateChecksum($packed);
+		$packed .= chr($checksum);
+
+		return $packed;
 	}
 
-	protected function overwriteBytes($start, $newBytes) {
-		$akku = substr($this->bytes, 0, $start);
-		$akku .= $newBytes;
-		$akku .= substr($this->bytes, $start + strlen($newBytes), strlen($this->bytes) - strlen($newBytes));
+	private function calculateChecksum($bytes) {
+		$splitBytes = str_split($bytes);
+		$akku = 0;
 
-		$this->bytes = $akku;
-	}
-
-	protected function getRawBytes($from, $to) {
-		$akku = "";
-
-		for ($i = $from; $i <= $to; $i++) {
-			$akku .= $this->bytes[$i];
+		foreach ($splitBytes as $b) {
+			$akku += ord($b);
 		}
 
-		return $akku;
+		return $akku % (0xFF + 1);
 	}
 
-	public function getServiceTypeName() {
-		$typeMap = array(
-			0 => "-",
-			1 => "SD",
-			2 => "Radio",
-			25 => "HD"
-		);
-
-		return $typeMap[$this->getServiceType()];
+	public function getIndex() {
+		return $this->channelData['index'];
 	}
 
-	/**
-	 * Normalizes the channel-name to enable the
-	 * association to a file.
-	 */
+	public function setIndex($index) {
+		$this->channelData['index'] = $index;
+	}
+
+	public function getName() {
+		return $this->channelData['name'];
+	}
+
+	public function setName($name) {
+		$this->channelData['name'] = $name;
+	}
+
 	public function getNormalizedName() {
 		$name = $this->getName();
 		$name = strtolower($name);
@@ -69,11 +63,23 @@ abstract class Channel {
 		$name = preg_replace("/\(.*\)/", "", $name); // remove parts between braces (including braces)
 		$name = preg_replace("/[^a-z0-9]/", "", $name); // remove any remaining odd characters
 		$name = str_replace( // remove some tv-specific parts
-			array("television", "hd"),
-			array("", ""),
+			["television", "hd"],
+			["", ""],
 			$name
 		);
 
-		return $name;
+		return trim($name);
+	}
+
+	public function getServiceType() {
+		return $this->channelData['servicetype'];
+	}
+
+	public function getServiceTypeName() {
+		return $this->typeMap[$this->getServiceType()];
+	}
+
+	public function setServiceType($serviceType) {
+		$this->channelData['servicetype'] = $serviceType;
 	}
 }

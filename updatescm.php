@@ -5,17 +5,15 @@ include_once __DIR__ . "/init.php";
 
 $sortingData = json_decode($_REQUEST['sortingdata'], true);
 
-file_put_contents(__DIR__ . "/log.txt", print_r($sortingData, true)); // @todo remove after testing
+//file_put_contents(__DIR__ . "/log.txt", print_r($sortingData, true)); // @todo remove after testing
 
-$scmFile = new ScmFile($_SESSION['uploadedScmPath']);
-$collections = $scmFile->getAllCollections();
+$scmFile = ScmFileFactory::getScmFile($_SESSION['uploadedScmPath']);
 
-foreach ($collections as $type => $collection) {
+foreach ($scmFile->getChannelFiles() as $type => $channelFile) {
 	if ($type != "Cable") continue; // @todo remove
 
-	$collection->reorder($sortingData[0]['indexOrder']);
-	$channelFile = new ChannelFile($scmFile->getPath(), $type, $scmFile->getSeriesNumber(), $collection);
-	$channelFile->writeChannelsToFile();
+	$channelFile->getChannelCollection()->reorder($sortingData[0]['indexOrder']);
+	$channelFile->writeChannels();
 }
 
 header("Pragma: public");
