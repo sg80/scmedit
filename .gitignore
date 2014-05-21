@@ -1,3 +1,7 @@
 _imgsrc/
 img/stations/*.png
 uploads/
+.DS_Store
+.buildpath
+.project
+log.txt
