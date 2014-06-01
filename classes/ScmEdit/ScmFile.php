@@ -1,11 +1,18 @@
 <?php
 
+namespace ScmEdit;
+
 abstract class ScmFile {
 	const DATASET_COUNT_CEIL = 1000; ///< always store a multiple of this number of datasets to the file
+	
+	protected $channelCollectionFactory;
+	protected $channelFactory;
 	protected $channelFiles = [];
 	protected $zipArchive;
 
-	public function __construct(ZipArchive $zipArchive) {
+	public function __construct(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, \ZipArchive $zipArchive) {
+		$this->channelCollectionFactory = $channelCollectionFactory;
+		$this->channelFactory = $channelFactory;
 		$this->zipArchive = $zipArchive;
 		$this->initChannelFiles();
 	}

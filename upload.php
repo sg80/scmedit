@@ -7,6 +7,10 @@ if (empty($_FILES)) {
 	throw new Exception("Upload-script called but there are no files to upload.");
 }
 
+if (!is_writable($uploadDir)) {
+	throw new Exception("Upload-dir '{$uploadDir}' is not writable.");
+}
+
 $targetDir = $uploadDir . "/" . session_id();
 mkdir($targetDir);
 

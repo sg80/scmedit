@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+	
+<project name="ScmEdit" basedir=".." default="PerformUnitTests">
+	<property file="${basedir}/_build/build.properties" />
+	
+	<target name="PerformUnitTests">
+		<exec dir="${basedir}" executable="php" failonerror="true">
+			<arg line="${phpunit.path}/phpunit.phar --coverage-html ${basedir}/_coveragereport --bootstrap ${basedir}/tests/init.php ${basedir}/tests/" />
+		</exec>
+	</target>
+</project>

@@ -7,13 +7,21 @@ if (-1 == version_compare(phpversion(), '5.4.0')) {
 	throw new Exception("A newer version of PHP is required.");
 }
 
-// Timezone
+// Timezone & Locale
 date_default_timezone_set("Europe/Berlin");
+setlocale(LC_CTYPE, 'en_US.UTF8');
 
-// Autoload
-set_include_path(__DIR__. "/classes");
-spl_autoload_extensions(".class.php");
-spl_autoload_register();
+// Composer-Autoloader
+require_once __DIR__ . "/vendor/autoload.php";
+
+// DI-Container
+$container = new Pimple();
+$container['channel_collection_factory'] = $container->share(function() {
+	return new ScmEdit\ChannelCollectionFactory();
+});
+$container['channel_factory'] = $container->share(function() {
+	return new ScmEdit\ChannelFactory();
+});
 
 // Session
 session_start();

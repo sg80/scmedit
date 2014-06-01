@@ -1,26 +1,30 @@
 <?php
 
+namespace ScmEdit;
+
 abstract class ChannelFile {
 	const DATASET_SIZE = 0;
 	const UNPACK_FORMAT = "";
 
 	protected $collection;
 	protected $scmFile;
+	private $channelCollectionFactory;
+	private $channelFactory;
 	private $fileName;
 
-	public function __construct(ScmFile $scmFile, $fileName) {
+	public function __construct(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, ScmFile $scmFile, $fileName) {
 		$this->scmFile = $scmFile;
 		$this->fileName = $fileName;
+		$this->channelCollectionFactory = $channelCollectionFactory;
+		$this->channelFactory = $channelFactory;
 
 		$this->readChannels();
 	}
 
-	/**
-	 * Converts format-definition if unpack() to format definition of pack().
-	 * Will work only if all parts are named (e.g. "/C1checksum" vs. "/C1").
-	 */
 	protected function getPackFormat() {
-		return preg_replace('/([a-zA-Z@][0-9*]*)([^\\/]+)\\/?/u', '\\1', static::UNPACK_FORMAT);
+		$pft = new UnpackFormatTranslator();
+		
+		return $pft->getPackFormat(static::UNPACK_FORMAT);
 	}
 
 	protected function getUnpackFormat() {
@@ -30,9 +34,8 @@ abstract class ChannelFile {
 	private function getBytes() {
 		$akku = "";
 		$count = 0;
-
-		
-		foreach ($this->collection as $channel) {
+	
+		foreach ($this->collection as $channel) { // @todo How to test \Iterable-interfaced in ChannelFileTest?
 			$akku .= $channel->getRawBytes($this->getPackFormat());
 			$count++;
 		}
@@ -52,7 +55,7 @@ abstract class ChannelFile {
 	}
 
 	protected function readChannels() {
-		$this->collection = new ChannelCollection();
+		$this->collection = $this->channelCollectionFactory->getNewChannelCollection();
 
 		$bytes = $this->scmFile->getZipArchive()->getFromName($this->fileName);
 
@@ -61,7 +64,7 @@ abstract class ChannelFile {
 			$channelBytes = substr($bytes, $i, static::DATASET_SIZE);
 			$i += static::DATASET_SIZE;
 
-			$channel = new Channel($this->getUnpackFormat(), $channelBytes);
+			$channel = $this->channelFactory->getNewChannel($this->getUnpackFormat(), $channelBytes);
 			$this->collection->add($channel);
 		}
 	}

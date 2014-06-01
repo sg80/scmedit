@@ -1,6 +1,8 @@
 <?php
 
-class ChannelCollection implements Iterator {
+namespace ScmEdit;
+
+class ChannelCollection implements \Iterator {
 	private $channels = array();
 	private $position = 0;
 
@@ -11,7 +13,7 @@ class ChannelCollection implements Iterator {
 			}
 		}
 
-		throw new Exception("Channel '{$index}' could not be found.");
+		throw new ChannelNotFoundException("Channel '{$index}' could not be found.");
 	}
 
 	public function removeByIndex($index) {
@@ -25,11 +27,11 @@ class ChannelCollection implements Iterator {
 	}
 
 	public function reorder($reorderedIndexes) {
+		$sorting = array_flip($reorderedIndexes);
+			
 		foreach ($this->channels as $channel) {
-			$sorting = array_flip($reorderedIndexes);
-
 			if (!isset($sorting[$channel->getIndex()])) {
-				$this->remove($channel->getIndex());
+				$this->removeByIndex($channel->getIndex());
 			} else {
 				$channel->setIndex($sorting[$channel->getIndex()] + 1);
 			}
@@ -37,7 +39,9 @@ class ChannelCollection implements Iterator {
 	}
 
 	public function add(Channel $channel) {
-		if (empty($channel->getIndex())) return;
+		$index = $channel->getIndex();
+		
+		if (empty($index)) return;
 		$this->channels[] = $channel;
 	}
 

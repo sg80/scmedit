@@ -1,5 +1,7 @@
 <?php
 
+namespace ScmEdit;
+
 class SeriesNumberReader {
 	protected $zipArchive;
 	private $seriesNumberBytes = [
@@ -8,7 +10,7 @@ class SeriesNumberReader {
 		1201 => "6d531200"
 	];
 
-	public function __construct(ZipArchive $zipArchive) {
+	public function __construct(\ZipArchive $zipArchive) {
 		$this->zipArchive = $zipArchive;
 	}
 
@@ -18,7 +20,7 @@ class SeriesNumberReader {
 		$seriesNumber = array_search(bin2hex($actualSeriesNumberBytes), $this->seriesNumberBytes);
 
 		if ($seriesNumber === FALSE) {
-			throw new Exception("Unknown version of file.");
+			throw new UnknownSeriesNumberException("Unknown version of file.");
 		}
 
 		return $seriesNumber;

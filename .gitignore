@@ -6,3 +6,8 @@ uploads/
 .project
 log.txt
 .settings/
+composer.phar
+composer.lock
+_coveragereport/
+vendor/
+_build/build.properties
