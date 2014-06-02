@@ -4,7 +4,6 @@ uploads/
 .DS_Store
 .buildpath
 .project
-log.txt
 .settings/
 composer.phar
 composer.lock

@@ -9,4 +9,43 @@
 			<arg line="${phpunit.path}/phpunit.phar --coverage-html ${basedir}/_coveragereport --bootstrap ${basedir}/tests/init.php ${basedir}/tests/" />
 		</exec>
 	</target>
+	
+	<target name="Clean" depends="CleanDependencies, ComposerRemove">
+		<!-- call other clean-targets -->
+	</target>
+	
+	<target name="CleanDependencies">
+		<delete includeemptydirs="true">
+			<fileset dir="vendor" includes="**/*" excludes="!info.txt" defaultexcludes="no" />
+		</delete>
+	</target>
+	
+	<target name="ComposerRemove">
+		<delete file="composer.lock" />
+		<delete file="composer.phar" />
+	</target>
+	
+	<target name="ComposerDownload">
+		<property name="composerinstaller" value="${basedir}/composerinstaller.php" />
+		
+		<get dest="${composerinstaller}" src="https://getcomposer.org/installer" />
+
+		<exec dir="${basedir}" executable="php" failonerror="true">
+			<arg line="${composerinstaller}" />
+		</exec>
+		
+		<delete file="${composerinstaller}" />
+	</target>
+	
+	<target name="ComposerInstallDependencies">
+		<exec dir="${basedir}" executable="php" failonerror="true">
+			<arg line="composer.phar install" />
+		</exec>
+	</target>
+	
+	<target name="ComposerUpdate">
+		<exec dir="${basedir}" executable="php" failonerror="true">
+			<arg line="composer.phar update" />
+		</exec>
+	</target>
 </project>

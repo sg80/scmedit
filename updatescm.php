@@ -5,8 +5,6 @@ include_once __DIR__ . "/init.php";
 
 $sortingData = json_decode($_REQUEST['sortingdata'], true);
 
-//file_put_contents(__DIR__ . "/log.txt", print_r($sortingData, true)); // @todo remove after testing
-
 $scmFile = ScmEdit\ScmFileFactory::getScmFile($container['channel_collection_factory'], $container['channel_factory'], $_SESSION['uploadedScmPath']);
 
 foreach ($scmFile->getChannelFiles() as $type => $channelFile) {

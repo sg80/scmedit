@@ -1,12 +1,4 @@
-To install dependencies, have a look at
-	https://getcomposer.org/download/
-
-Basically, do the following from a command line:
-	curl -sS https://getcomposer.org/installer | php
-		or
-	php -r "readfile('https://getcomposer.org/installer');" | php
-
+To install composer and get all dependencies, run
+	_build/build.xml:ComposerDownload
 then
-	php composer.phar install
-
-Good luck!
+	_build/build.xml:ComposerInstallDependencies
