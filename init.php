@@ -22,6 +22,9 @@ $container['channel_collection_factory'] = $container->share(function() {
 $container['channel_factory'] = $container->share(function() {
 	return new ScmEdit\ChannelFactory();
 });
+$container['file_outputter'] = $container->share(function() {
+	return new ScmEdit\FileOutputter();
+});
 
 // Session
 session_start();

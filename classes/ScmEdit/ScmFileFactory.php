@@ -3,7 +3,7 @@
 namespace ScmEdit;
 
 class ScmFileFactory {
-	public static function getScmFile(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, $filePath) {
+	public static function getScmFile(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, FileOutputter $fileOutputter, $filePath) {
 		if (!is_readable($filePath)) {
 			throw new FileUnreadableException("Input file '{$filePath}' is not readable.");
 		}
@@ -16,7 +16,7 @@ class ScmFileFactory {
 
 		$scmFileClassName = "ScmEdit\\ScmFile{$seriesNumber}";
 
-		$scmFile = new $scmFileClassName($channelCollectionFactory, $channelFactory, $zip);
+		$scmFile = new $scmFileClassName($channelCollectionFactory, $channelFactory, $fileOutputter, $zip);
 
 		return $scmFile;
 	}

@@ -2,6 +2,6 @@
 
 namespace ScmEdit;
 
-class InvalidChecksumException extends \Exception {
+class FileUnreadableException extends \Exception {
 	
 }

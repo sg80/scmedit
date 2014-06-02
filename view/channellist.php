@@ -1,5 +1,5 @@
 <?
-$scmFile = ScmEdit\ScmFileFactory::getScmFile($container['channel_collection_factory'], $container['channel_factory'], $_SESSION['uploadedScmPath']);
+$scmFile = ScmEdit\ScmFileFactory::getScmFile($container['channel_collection_factory'], $container['channel_factory'], $container['file_outputter'], $_SESSION['uploadedScmPath']);
 $channelFiles = $scmFile->getChannelFiles();
 ?>
 
