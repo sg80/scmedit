@@ -6,6 +6,7 @@ class ScmFileTest extends PHPUnit_Framework_TestCase {
 	private $channelCollectionFactory;
 	private $channel;
 	private $fileOutputter;
+	private $baseInfoReader;
 	
 	public function setUp() {
 		$this->zipArchive = $this->getMock("\ZipArchive");
@@ -25,6 +26,8 @@ class ScmFileTest extends PHPUnit_Framework_TestCase {
 		$this->channelFactory->expects($this->any())
 			->method("getNewChannel")
 			->will($this->returnValue($this->channel));
+		
+		$this->baseInfoReader = $this->getMock("ScmEdit\BaseInfoReader", [], [$this->zipArchive]);
 	}
 	
 	public function testReorderChannelsAndOutput() {
@@ -32,7 +35,7 @@ class ScmFileTest extends PHPUnit_Framework_TestCase {
 		$fileOutputter->expects($this->once())
 			->method("output");
 		
-		$scmFile = new ScmEdit\ScmFile1201($this->channelCollectionFactory, $this->channelFactory, $fileOutputter, $this->zipArchive);
+		$scmFile = new ScmEdit\ScmFile1201($this->channelCollectionFactory, $this->channelFactory, $fileOutputter, $this->zipArchive, $this->baseInfoReader);
 		$scmFile->reorderChannelsAndOutput('[{"type":"Cable","indexOrder":[1,2,3]}]');
 	}
 	
@@ -44,7 +47,7 @@ class ScmFileTest extends PHPUnit_Framework_TestCase {
 		$fileOutputter->expects($this->never())
 			->method("output");
 		
-		$scmFile = new ScmEdit\ScmFile1201($this->channelCollectionFactory, $this->channelFactory, $fileOutputter, $this->zipArchive);
+		$scmFile = new ScmEdit\ScmFile1201($this->channelCollectionFactory, $this->channelFactory, $fileOutputter, $this->zipArchive, $this->baseInfoReader);
 		$scmFile->reorderChannelsAndOutput('foobar');
 	}
 }

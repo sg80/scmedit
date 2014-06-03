@@ -8,18 +8,15 @@ class ChannelFileTest extends PHPUnit_Framework_TestCase {
 		$bytes = str_repeat("a", 42 * ScmEdit\CableChannelFile320::DATASET_SIZE);
 		
 		$zipArchive = $this->getMock("\ZipArchive");
-		
 		$zipArchive->expects($this->once())
 			->method("getFromName")
 			->will($this->returnValue($bytes));
-		
 		$zipArchive->expects($this->once())
 			->method("addFromString");
 		
 		$scmFile = $this->getMockBuilder("ScmEdit\ScmFile1201")
 			->disableOriginalConstructor()
 			->getMock();
-		
 		$scmFile->expects($this->exactly(2))
 			->method("getZipArchive")
 			->will($this->returnValue($zipArchive));

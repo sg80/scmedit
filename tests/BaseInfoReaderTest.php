@@ -1,6 +1,6 @@
 <?php
 
-class SeriesNumberReaderTest extends PHPUnit_Framework_TestCase {
+class BaseInfoReaderTest extends PHPUnit_Framework_TestCase {
 	public function testSuccess() {
 		$bytes = chr(0xCC) . chr(0xCC) . chr(0x10) . chr(0x00);
 		
@@ -10,9 +10,9 @@ class SeriesNumberReaderTest extends PHPUnit_Framework_TestCase {
 			->method("getFromName")
 			->will($this->returnValue($bytes));
 		
-		$seriesNumberReader = new ScmEdit\SeriesNumberReader($zipArchive);
+		$baseInfoReader = new ScmEdit\BaseInfoReader($zipArchive);
 		
-		$this->assertEquals(1101, $seriesNumberReader->getSeriesNumber());
+		$this->assertEquals(1101, $baseInfoReader->getSeriesNumber());
 	}
 	
 	/**
@@ -27,8 +27,8 @@ class SeriesNumberReaderTest extends PHPUnit_Framework_TestCase {
 			->method("getFromName")
 			->will($this->returnValue($bytes));
 		
-		$seriesNumberReader = new ScmEdit\SeriesNumberReader($zipArchive);
+		$baseInfoReader = new ScmEdit\BaseInfoReader($zipArchive);
 		
-		$seriesNumberReader->getSeriesNumber();
+		$baseInfoReader->getSeriesNumber();
 	}
 }

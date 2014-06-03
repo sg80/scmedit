@@ -40,10 +40,10 @@ abstract class ChannelFile {
 			$count++;
 		}
 
-		$datasetCountCeil = 1000;// $this->scmFile::DATASET_COUNT_CEIL; // @todo read from instance
+		$datasetMultiple = constant(get_class($this->scmFile) . "::DATASET_MULTIPLE");
 
-		if ($count % $datasetCountCeil > 0) {
-			$missing = $datasetCountCeil * (1 + $count - ($count % $datasetCountCeil)) - $count;
+		if ($count % $datasetMultiple > 0) {
+			$missing = $datasetMultiple * (1 + $count - ($count % $datasetMultiple)) - $count;
 			$akku .= str_repeat(chr(0), $missing * self::DATASET_SIZE);
 		}
 		

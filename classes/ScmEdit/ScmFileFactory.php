@@ -11,12 +11,12 @@ class ScmFileFactory {
 		$zip = new \ZipArchive();
 		$zip->open($filePath);
 
-		$seriesNumberReader = new SeriesNumberReader($zip);
-		$seriesNumber = $seriesNumberReader->getSeriesNumber();
+		$baseInfoReader = new BaseInfoReader($zip);
+		$seriesNumber = $baseInfoReader->getSeriesNumber();
 
 		$scmFileClassName = "ScmEdit\\ScmFile{$seriesNumber}";
 
-		$scmFile = new $scmFileClassName($channelCollectionFactory, $channelFactory, $fileOutputter, $zip);
+		$scmFile = new $scmFileClassName($channelCollectionFactory, $channelFactory, $fileOutputter, $zip, $baseInfoReader);
 
 		return $scmFile;
 	}

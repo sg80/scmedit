@@ -3,22 +3,25 @@
 namespace ScmEdit;
 
 abstract class ScmFile {
-	const DATASET_COUNT_CEIL = 1000; ///< always store a multiple of this number of datasets to the file
+	const DATASET_MULTIPLE = NULL; ///< always store a multiple of this number of datasets to the file
 	
 	protected $channelCollectionFactory;
 	protected $channelFactory;
+	protected $baseInfoReader;
 	protected $channelFiles = [];
 	protected $fileOutputter;
 	protected $zipArchive;
 
-	public function __construct(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, FileOutputter $fileOutputter, \ZipArchive $zipArchive) {
+	public function __construct(ChannelCollectionFactory $channelCollectionFactory, ChannelFactory $channelFactory, FileOutputter $fileOutputter, \ZipArchive $zipArchive, BaseInfoReader $baseInfoReader) {
 		$this->channelCollectionFactory = $channelCollectionFactory;
 		$this->channelFactory = $channelFactory;
 		$this->fileOutputter = $fileOutputter;
 		$this->zipArchive = $zipArchive;
+		$this->baseInfoReader = $baseInfoReader;
+		
 		$this->initChannelFiles();
 	}
-
+	
 	public function getChannelFiles() {
 		return $this->channelFiles;
 	}
@@ -30,6 +33,14 @@ abstract class ScmFile {
 	public function getPath() {
 		return $this->zipArchive->filename;
 	}
+
+	public function getModelName() {
+		return $this->baseInfoReader->getModelName();
+	}
+
+	public function getSeriesNumber() {
+		return $this->baseInfoReader->getSeriesNumber();
+	}
 	
 	public function reorderChannelsAndOutput($sortingDataRaw) {
 		$sortingData = json_decode($sortingDataRaw, true);
@@ -39,8 +50,6 @@ abstract class ScmFile {
 		}
 		
 		foreach ($this->getChannelFiles() as $type => $channelFile) {
-			if ($type != "Cable") continue; // @todo remove
-		
 			$channelFile->getChannelCollection()->reorder($sortingData[0]['indexOrder']);
 			$channelFile->writeChannels();
 		}
