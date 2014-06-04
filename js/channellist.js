@@ -28,24 +28,29 @@ $(function() {
 	});
 
 	$('#download').on('click', function() {
-		// build sorting-data from tables
+		// build sorting-data from table
 		var sortingData = new Array();
-
-		$('table[data-type]').each(function() {
+		
+		var types = getChannelTypes();
+		
+		$.each(getChannelTypes(), function(index, channelType) {
 			var indexOrder = new Array();
-			var type = $(this).data('type');
-			$(this).find('tr.channel').each(function() {
+			
+			$('tr.channel[data-type="' + channelType + '"]').each(function() {
 				indexOrder.push($(this).data('index'));
 			});
+			
 			sortingData.push({
-				"type": type,
+				"type": channelType,
 				"indexOrder": indexOrder
 			});
 		});
+		
+		console.log(sortingData);
 
 		// send sorting-data to server-side script
 		var address = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData));
-		location.href = address; // found no working way of sending it by POST instead of GET
+		location.href = address; // @todo found no working way of sending it by POST instead of GET
 
 		$(this).hide();
 		$('#download-warning').show();
@@ -54,6 +59,24 @@ $(function() {
 		return false;
 	});
 });
+
+function getChannelTypes() {
+	var channelTypes = new Array();
+	
+	$('tr.channel[data-type]').each(function() {
+		channelTypes.push($(this).data('type'));
+	});
+	
+	return makeUnique(channelTypes);
+}
+
+function makeUnique(arr) {
+	var unique = arr.filter(function(item, i, a) {
+	    return i == a.indexOf(item);
+	});
+	
+	return unique;
+}
 
 function renumberChannels() {
 	var i = 1;

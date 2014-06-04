@@ -14,9 +14,10 @@ $channelFiles = $scmFile->getChannelFiles();
 
 <div class="lists-container">
 	<table class="channel-list">
-		<? foreach ($channelFiles as $title => $channelFile) { ?>
+		<? foreach ($channelFiles as $medium => $channelFile) { ?>
 			<? foreach($channelFile->getChannelCollection() as $channel) { ?>
-				<tr class="channel" data-type="<?=$title?>" data-index="<?=$channel->getIndex()?>">
+				<tr class="channel" data-type="<?=$medium?>" data-index="<?=$channel->getIndex()?>">
+					<td class="medium-type"><div class="medium-type medium-type-<?=strtolower($medium)?>"><span class="invisible"><?=$medium?></span></div>
 					<td class="index"><?=$channel->getIndex()?></td>
 					<td class="service-type"><div class="service-type service-type-<?=$channel->getServiceType()?>"><span class="invisible"><?=$channel->getServiceTypeName()?></span></td>
 					<td class="logo logo-<?=$channel->getNormalizedName()?>"></td>
