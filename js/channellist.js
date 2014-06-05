@@ -1,5 +1,7 @@
 $(function() {
 	$('.channel-list tr').tsort({attr: 'data-index'});
+	renumberChannels();
+	
 	$('.channel-list').tableDnD({
 		onDragClass: 'dragging',
 		onDrop: function(table, row) {
@@ -51,6 +53,7 @@ $(function() {
 		// send sorting-data to server-side script
 		var address = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData));
 		location.href = address; // @todo found no working way of sending it by POST instead of GET
+		                         // THIS HAS TO BE FIXED since it actually IS a problem with real data
 
 		$(this).hide();
 		$('#download-warning').show();

@@ -14,7 +14,7 @@ class ScmFileTest extends PHPUnit_Framework_TestCase {
 		$this->channelCollection = $this->getMock("ScmEdit\ChannelCollection");
 		
 		$this->channelCollectionFactory = $this->getMock("ScmEdit\ChannelCollectionFactory");
-		$this->channelCollectionFactory->expects($this->once())
+		$this->channelCollectionFactory->expects($this->exactly(3)) // amount of reception-types (cable, air, sat)
 			->method("getNewChannelCollection")
 			->will($this->returnValue($this->channelCollection));
 		
