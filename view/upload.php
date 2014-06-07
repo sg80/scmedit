@@ -22,7 +22,7 @@
 		});
 	});
 </script>
-
+	
 <div class="upload">
 	<div id="dnd-upload">
 		<div class="upload-info">

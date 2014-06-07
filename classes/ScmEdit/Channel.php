@@ -21,7 +21,7 @@ class Channel {
 		$checksum = $this->calculateChecksum(substr($bytes, 0, -static::CHECKSUM_LENGTH));
 		
 		if ($this->getChecksum() != $checksum) {
-			throw new InvalidChecksumException("Calculated checksum ({$checksum}) doesn't match stored checksum ({$this->getChecksum()})");
+			throw new InvalidChecksumException("Calculated checksum ({$checksum}) doesn't match stored checksum ({$this->getChecksum()}).");
 		}
 	}
 
@@ -92,6 +92,7 @@ class Channel {
 		if (!isset($this->typeMap[$this->getServiceType()])) {
 			return $this->typeMap[static::UNKNOWN_TYPE];
 		}
+		
 		return $this->typeMap[$this->getServiceType()];
 	}
 

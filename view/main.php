@@ -10,19 +10,18 @@
 		<script type="text/javascript" src="js/jquery.tinysort.min.js"></script>
 	</head>
 	<body>
-		<h1>Online .scm-editor</h1>
-		<p class="intro">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque nunc, mollis ac molestie sed, interdum quis enim. Vestibulum a eros nec sem interdum interdum in quis nulla. Phasellus porttitor facilisis augue quis accumsan. In nec sapien sed mi aliquam lobortis sed ut dui. Fusce commodo vehicula urna, vitae mattis tellus euismod vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-		</p>
-		<p class="intro">
-			Nam condimentum purus turpis, vitae aliquam diam auctor ac. Nam eget vestibulum ante. Donec at imperdiet leo. Duis vitae ligula in sapien adipiscing posuere. Morbi nec ultricies nibh, at varius velit. Nunc non euismod massa, eget lacinia mi. Sed viverra lorem nunc. Donec malesuada elit sit amet consectetur bibendum. Proin cursus odio vel justo dictum tempus. 
-		</p>
-		<p class="intro">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque nunc, mollis ac molestie sed, interdum quis enim. Vestibulum a eros nec sem interdum interdum in quis nulla.
-		</p>
+		<div class="intro">
+			<h1>Online .scm-editor</h1>
+			<p>
+				Use this platform-independent tool to comfortably modify your channel-list-files (.scm) of your <a href="http://de.wikipedia.org/wiki/Suwon">South Korean</a> TV set.
+			</p>
+			<p>
+				Just <a href="http://youtu.be/31RjBg_mNrU?t=1m29s">export the channel list</a> from your TV set to a USB drive and upload the file below. After removing channels and editing the ordering, you can download the modified file from this tool. Upload it to your TV set and you're done.
+			</p>
+		</div>
 		<? include __DIR__ . "/{$page}.php"; ?>
 		<div class="footer">
-			footer
+			Developed by <a href="https://www.facebook.com/stefan.m.groh">Stefan Groh</a>. Sources available at <a href="https://github.com/sg80/scmedit">GitHub</a>.
 		</div>
 	</body>
 </html>
