@@ -47,15 +47,18 @@ a.delete:hover { background-position:-20px 0px; }
 .channel-list td.options { padding-top:6px; }
 
 .download { background:#eee; width:600px; margin:0 auto; clear:both; text-align:center; display:block; padding-top:60px; margin-bottom:15px; padding-bottom:10px; }
-.download a { padding-top:50px; background:url(img/download.png) no-repeat center 0px; }
+.download a { padding-top:50px; background:url(img/loadsprite.png) no-repeat -64px 0px; }
 .download a#download { display:none; color:white; font-weight:bold; text-transform:uppercase; }
 .download a#download:hover { text-decoration:none; }
 .download.warning { background:#aa0000; }
+.download.warning a#download { background-image:url(img/loadsprite.png); background-position:-96px 0px; }
 
 .logo { display:block; width:20px; height:20px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
 
 .footer { clear:both; background:gray; padding:30px; color:silver; }
 .footer a { color:#9999ff; }
+
+#flattr img { position:relative; top:6px; }
 
 #dnd-upload { clear:both; background:#eee; display:table; width:200px; height:200px; border-radius:50%; }
 #dnd-upload .upload-info,

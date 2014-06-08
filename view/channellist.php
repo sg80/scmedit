@@ -11,13 +11,13 @@ try {
 	<p class="error-message">An error occured: <?=$errorMessage?></p>
 	<p>To retry, <a href="?">go back</a> and upload your file again.
 <? } else { ?>
-	<script type="text/javascript" src="js/channellist.js"></script>
+	<script type="text/javascript" src="js/scmedit_channellist.js"></script>
 	
 	<p>Your TV model: <?=$scmFile->getModelName();?> (Series <?=$scmFile->getSeriesNumber()?>)</p>
 	
 	<div class="download">
 		<a id="download-warning" href="#">apply changes and download .scm-file</a>
-		<a id="download" href="#">no warranty &dash; use at own risk &dash; click again to agree</a>
+		<a id="download" href="#">no warranty &dash; use at your own risk &dash; click again to agree</a>
 	</div>
 	
 	<div class="lists-container">
