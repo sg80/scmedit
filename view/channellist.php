@@ -13,11 +13,18 @@ try {
 <? } else { ?>
 	<script type="text/javascript" src="js/scmedit_channellist.js"></script>
 	
-	<p>Your TV model: <?=$scmFile->getModelName();?> (Series <?=$scmFile->getSeriesNumber()?>)</p>
+	<p>
+		Your TV model:
+		<? if (strlen($scmFile->getModelName()) > 0) { ?>
+			 <a href="https://www.google.de/search?q=<?=urlencode($scmFile->getModelName());?>"><?=$scmFile->getModelName();?></a>
+			 &dash;
+		<? } ?>
+		Series <?=$scmFile->getSeriesNumber()?>
+	</p>
 	
 	<div class="download">
-		<a id="download-warning" href="#">apply changes and download .scm-file</a>
-		<a id="download" href="#">no warranty &dash; use at your own risk &dash; click again to agree</a>
+		<a id="download-warning" href="#"><div class="icon"></div>apply changes and download .scm-file</a>
+		<a id="download" href="#"><div class="icon"></div>no warranty &dash; use at your own risk &dash; click again to agree</a>
 	</div>
 	
 	<div class="lists-container">

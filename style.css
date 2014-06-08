@@ -1,7 +1,7 @@
 * { color:#222; font-size:13px; line-height:15px; font-family:sans-serif; margin:0px; padding:0px; border-collapse:collapse; }
 
 .intro { margin:0px auto; width:600px; }
-.intro h1 { margin-top:15px; font-size:30px; color:#999; }
+.intro h1 { font-family:'Noticia Text',sans-serif; margin-top:15px; font-size:30px; color:#999; }
 .intro h1,
 	.intro p { margin-bottom:10px; line-height:130%; }
 
@@ -46,23 +46,27 @@ a.delete:hover { background-position:-20px 0px; }
 	.channel-list td.index { padding-top:8px; }
 .channel-list td.options { padding-top:6px; }
 
-.download { background:#eee; width:600px; margin:0 auto; clear:both; text-align:center; display:block; padding-top:60px; margin-bottom:15px; padding-bottom:10px; }
-.download a { padding-top:50px; background:url(img/loadsprite.png) no-repeat -64px 0px; }
+.download { background:#eee; width:600px; margin:0 auto; clear:both; text-align:center; display:block; padding-top:15px; margin-bottom:15px; padding-bottom:10px; }
+.download .icon,
+	.upload .icon { margin:0px auto 5px auto; display:block; width:32px; height:40px; background:url(img/loadsprite.png) no-repeat -64px 0px; }
 .download a#download { display:none; color:white; font-weight:bold; text-transform:uppercase; }
 .download a#download:hover { text-decoration:none; }
 .download.warning { background:#aa0000; }
-.download.warning a#download { background-image:url(img/loadsprite.png); background-position:-96px 0px; }
+.download.warning .icon { background-image:url(img/loadsprite.png); background-position:-96px 0px; }
 
 .logo { display:block; width:20px; height:20px; background-repeat:no-repeat; background-size:16px 16px; background-position:6px 8px;}
 
 .footer { clear:both; background:gray; padding:30px; color:silver; }
 .footer a { color:#9999ff; }
 
-#flattr img { position:relative; top:6px; }
+#github { display:inline-block; width:45px; height:12px; background:url(img/github.png) no-repeat; }
+#flattr { position:absolute; right:0px; padding-right:30px; }
 
-#dnd-upload { clear:both; background:#eee; display:table; width:200px; height:200px; border-radius:50%; }
+.upload { text-align:center; margin:0px auto 10px auto; clear:both; background:#eee; padding:20px; width:560px; }
+.upload .icon { background-position:0px; }
+#dnd-upload { }
 #dnd-upload .upload-info,
-	.dz-preview { display:table-cell; text-align:center; vertical-align:middle; }
+	.dz-preview { }
 
 .dz-details,
 	.dz-success-mark,

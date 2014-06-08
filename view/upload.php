@@ -4,7 +4,8 @@
 <div class="upload">
 	<div id="dnd-upload">
 		<div class="upload-info">
-			Drag &amp; drop your<br />.scm-file here to edit.
+			<div class="icon"></div>
+			Drag &amp; drop your channel-list here to edit.
 		</div>
 	</div>
 </div>
