@@ -35,10 +35,10 @@ $(function() {
 		
 		var types = getChannelTypes();
 		
-		$.each(getChannelTypes(), function(index, channelType) {
+		$.each(types, function(index, channelType) {
 			var indexOrder = new Array();
 			
-			$('tr.channel[data-type="' + channelType + '"]').each(function() {
+			$('table[data-type="' + channelType + '"] tr.channel').each(function() {
 				indexOrder.push($(this).data('index'));
 			});
 			
@@ -66,7 +66,7 @@ $(function() {
 function getChannelTypes() {
 	var channelTypes = new Array();
 	
-	$('tr.channel[data-type]').each(function() {
+	$('table.channel-list[data-type]').each(function() {
 		channelTypes.push($(this).data('type'));
 	});
 	
