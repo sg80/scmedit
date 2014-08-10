@@ -50,11 +50,17 @@ $(function() {
 		
 		console.log(sortingData);
 
-		// send sorting-data to server-side script
-		var address = "updatescm.php?sortingdata=" + encodeURI(JSON.stringify(sortingData));
-		location.href = address; // @todo found no working way of sending it by POST instead of GET
-		                         // THIS HAS TO BE FIXED since it actually IS a problem with real data
-
+		// send sorting-data to server-side script then
+		// redirect to modify and download the file.
+		// updatescm.php does both
+		$.post("updatescm.php", {
+			sortingdata: JSON.stringify(sortingData)
+		}).done(function(data) {
+			location.href = "updatescm.php";
+		}).fail(function() {
+			alert("An error has occured when modifying channel-data.");
+		});
+		
 		$(this).hide();
 		$('#download-warning').show();
 		$(this).parent().removeClass('warning');
